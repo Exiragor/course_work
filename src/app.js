@@ -3,6 +3,7 @@ import * as path from 'path';
 import {match, RouterContext} from 'react-router';
 import render from './server-render';
 import temp from 'consolidate';
+import apiRoutes from './routes/api';
 
 let app = express();
 
@@ -12,7 +13,13 @@ app.set('views', __dirname + '/views');
 
 app.use('/public', express.static(path.join( __dirname + '/public')));
 
-app.get('*', render.handleRender);
+app.use('/api', apiRoutes);
+app.get('*', (req, res) => {
+    res.render('index');
+});
+
+
+
 
 
 export default app;

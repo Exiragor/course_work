@@ -8,7 +8,7 @@ import config from './config';
 
 let preloadedState = window.__PRELOADED_STATE__ || {};
 let store;
-config.getMode() === 'dev' ? 
+config.mode === 'dev' ? 
     store = createStore(counterApp, preloadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()) 
     : store = createStore(counterApp, preloadedState);
 

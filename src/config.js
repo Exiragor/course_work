@@ -1,28 +1,26 @@
-export default class Config { 
-    self = this; 
-    port = 4400;
-    sqlHost = 'localhost';
-    sqlUser = 'root';
-    sqlPass = 'root';
-    sqlDB = 'course-work';
-    mode = 'dev';
-    appMode = mode || 'production';
-
-    static getPort() {
-        return this.port;
-    }
-
-    static getSqlProps() {
-        return {
-            host: this.sqlHost,
-            user: this.sqlUser,
-            pass: this.sqlPass,
-            db: this.sqlDB
-        }
-    } 
-
-    static getMode() {
-        return this.appMode;
-    } 
+const Config = {  
+    port: 4400,
+    dbConfig: {
+        host: 'localhost',
+        user: 'root',
+        password: 'root',
+        database: 'course-work'
+    },
+    mode: 'dev'
 }
+
+    // static getPort() {
+    //     return this.port;
+    // }
+
+    // static getSqlProps() {
+    //     return this.dbConfig;
+    // } 
+
+    // static getMode() {
+    //     return this.appMode;
+    // } 
+
+
+export default Config;
 

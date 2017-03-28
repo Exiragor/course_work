@@ -3,7 +3,7 @@ require('babel-register');
 import config from './config';
 import app from './app';
 
-const port = normalizePort(config.getPort() || '3000');
+const port = normalizePort(config.port || '3000');
 
 
 app.listen(port, function () {

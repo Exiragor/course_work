@@ -2,14 +2,25 @@ import mysql from 'mysql';
 
 
 class Tasks {
-    db = {};
 
-    constructor(db) {
-        this.db = db;    
+    constructor(dbConf) {
+        this.db = mysql.createConnection(dbConf);
+        this.db.connect(function(err) {
+            if (err){
+                console.log('error in connection:' + err.stack);
+            }
+            return;
+        });    
     }
 
     getTable(name) {
-        db.query();
+        return new Promise((resolve, reject) => {
+            this.db.query(`SELECT * FROM ${name};`, function(error, res) {
+                resolve(res);
+                console.log('query error: ' + error); 
+                reject(error); 
+            });
+        });
     }
 
 }
