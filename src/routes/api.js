@@ -1,18 +1,16 @@
-import express from 'express';
-let router = express.Router();
-import tasks from '../tasks';
-import config from '../config';
-let task = new tasks(config.dbConfig);
-
-
-router.get('/test', (req, res) => {
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+var router = express_1["default"].Router();
+var tasks_1 = require("../tasks");
+var config_1 = require("../config");
+var task = new tasks_1["default"](config_1["default"].dbConfig);
+router.get('/test', function (req, res) {
     task.getTable('test')
-        .then(result => {
-            res.json(result);
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        .then(function (result) {
+        res.json(result);
+    })["catch"](function (err) {
+        console.log(err);
+    });
 });
-
-export default router;
+exports["default"] = router;

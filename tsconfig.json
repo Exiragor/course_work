@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./build",
+    "rootDir": "src",
+    "allowUnreachableCode": true
+  },
+  "exclude": [
+    "node_modules",
+    "public"
+  ]
+}
