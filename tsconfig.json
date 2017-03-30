@@ -4,8 +4,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "outDir": "./build",
-    "rootDir": "src",
-    "allowUnreachableCode": true
+    "rootDir": "./src"
+    // "allowUnreachableCode": true
   },
   "exclude": [
     "node_modules",

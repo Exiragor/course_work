@@ -4,7 +4,7 @@ const Config = {
         host: 'localhost',
         user: 'root',
         password: 'root',
-        database: 'course-work'
+        database: 'sport_complex'
     },
     mode: 'dev'
 }
