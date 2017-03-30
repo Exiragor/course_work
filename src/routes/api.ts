@@ -7,8 +7,7 @@ let task = new tasks(config.dbConfig);
 
 router.get('/test', async (req, res) => {
     try {
-        let result = await task.getTable('test');
-        res.json(result);
+        res.json(await task.getTable('test'));
     }
     catch (err) {
         console.log(err);

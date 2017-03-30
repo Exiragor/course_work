@@ -6,8 +6,7 @@
   "scripts": {
     "start": "webpack && node -r babel-register src/server.js",
     "wp-watch": "webpack --watch",
-    "dev": "nodemon -r babel-register src/server.js",
-    "test-dev": "nodemon build/server.js"
+    "dev": "tsc && nodemon build/server.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +28,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "devDependencies": {
+    "@types/node": "^7.0.12",
     "nodemon": "^1.11.0"
   }
 }
