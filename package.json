@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack && node -r babel-register src/server.js",
     "wp-watch": "webpack --watch",
-    "dev": "tsc && node build/server.js"
+    "dev": "tsc && nodemon build/server.js"
   },
   "repository": {
     "type": "git",
