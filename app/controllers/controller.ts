@@ -1,4 +1,4 @@
-import connect from '../models';
+import connect from '../models/dbDriver';
 import config from '../config';
 
 class Controller {
