@@ -13,4 +13,9 @@ class Trainers extends Controller {
 
 }
 
-export default Trainers;
+const trainers = new Trainers();
+
+export function getTrainers(req, res) {
+    return trainers.getTrainers(res);
+}
+

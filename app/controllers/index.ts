@@ -1,7 +1,7 @@
-import trainers from './trainers';
+import * as trainers from './trainers';
 
 export default {
     test: 'hello',
-    trainers: new trainers()
+    trainers
 };
 
