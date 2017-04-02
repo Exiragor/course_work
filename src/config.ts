@@ -9,18 +9,5 @@ const Config = {
     mode: 'dev'
 }
 
-    // static getPort() {
-    //     return this.port;
-    // }
-
-    // static getSqlProps() {
-    //     return this.dbConfig;
-    // } 
-
-    // static getMode() {
-    //     return this.appMode;
-    // } 
-
-
 export default Config;
 
