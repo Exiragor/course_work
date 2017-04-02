@@ -1,11 +1,9 @@
 module.exports = {
-   entry: ['babel-polyfill', './src/client.js'],
+   entry: './build/client.js',
    output: {
         filename: "bundle.js",
-        path: __dirname + "/src/public/assets/js"
+        path: __dirname + "/public/assets/js"
     },
-
-    devtool: 'sourse-map',
 
     module: {
       loaders: [
@@ -14,7 +12,7 @@ module.exports = {
           exclude: /node_modules/,
           loader: "babel-loader",
           query: {
-            presets: ['es2015', 'react', 'stage-0']
+            presets: ['es2015', 'stage-0']
           }
         }
       ]

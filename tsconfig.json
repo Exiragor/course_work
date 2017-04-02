@@ -4,11 +4,13 @@
     "module": "commonjs",
     "sourceMap": false,
     "outDir": "./build",
-    "rootDir": "./src"
+    "rootDir": "./app",
+    "experimentalDecorators": true
     // "allowUnreachableCode": true
   },
   "exclude": [
     "node_modules",
-    "public"
+    "public",
+    ""
   ]
 }
