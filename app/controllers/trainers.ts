@@ -7,8 +7,9 @@ interface postData {
     exp: String
 }
 
-class Trainers extends Controller {
-    tableName: String = 'trainer';
+export class Trainers extends Controller {
+
+    private tableName: String = 'trainer';
 
     public async getTrainers(res: any) {
         try {
@@ -49,7 +50,7 @@ class Trainers extends Controller {
                 trainerName: data.trainerName != '' ? data.trainerName : undefined,
                 trainerAddress: data.trainerAddress != '' ? data.trainerAddress : undefined,
                 trainerPhone: data.trainerPhone != '' ? data.trainerPhone : undefined,
-                expirience: data.expirience != '' ? data.expirience : undefined,
+                expirience: data.expirience != '' ? data.expirience : undefined
             }
             await this.db.updateRow(this.tableName, position, prop)
                 .then((result) => {
@@ -64,16 +65,8 @@ class Trainers extends Controller {
 
 }
 
-const trainers = new Trainers();
+export let trainers = new Trainers();
 
-export function getTrainers(req, res) {
-    return trainers.getTrainers(res);
-}
 
-export function addTrainer(req, res) {
-    return trainers.addTrainer(req.body, res);
-}
 
-export function editTrainer(req, res) {
-    return trainers.editTrainer(req.body, res);
-}
+
