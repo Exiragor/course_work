@@ -1,6 +1,10 @@
-import * as mysql from 'mysql';
 import * as knex from 'knex';
 
+interface Position {
+    field: String,
+    mark: String | null,
+    value: String
+}
 
  class Tasks {
     private db: any;
@@ -34,6 +38,27 @@ import * as knex from 'knex';
                 .catch((err) => {
                     reject(err)
                 });
+        });
+    }
+
+    public updateRow(name: String, pos: Position, Props: object):Promise<any> {
+        return new Promise((resolve, reject) => {
+            let whereProps: String[];
+
+            if(pos.mark === null)
+                whereProps = [pos.field, pos.value];
+            else
+                whereProps = [pos.field, pos.mark, pos.value];
+
+            this.db(name)
+                .where(...whereProps)
+                .update(Props)
+            .then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
     }
 

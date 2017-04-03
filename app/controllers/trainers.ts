@@ -34,6 +34,31 @@ class Trainers extends Controller {
         }
         catch(err) {
             console.log(err);
+            res.send('ошибка');
+        }
+    }
+
+    public async editTrainer(data: any, res:any) {
+        try{
+            let position = {
+                field: 'TrainerID',
+                mark: null,
+                value: data.trainerID
+            }
+            let prop = {
+                trainerName: data.trainerName != '' ? data.trainerName : undefined,
+                trainerAddress: data.trainerAddress != '' ? data.trainerAddress : undefined,
+                trainerPhone: data.trainerPhone != '' ? data.trainerPhone : undefined,
+                expirience: data.expirience != '' ? data.expirience : undefined,
+            }
+            await this.db.updateRow(this.tableName, position, prop)
+                .then((result) => {
+                    res.send('успешно');
+                });
+        }
+        catch(err) {
+            console.log(err);
+            res.send('ошибка');
         }
     }
 
@@ -49,3 +74,6 @@ export function addTrainer(req, res) {
     return trainers.addTrainer(req.body, res);
 }
 
+export function editTrainer(req, res) {
+    return trainers.editTrainer(req.body, res);
+}
