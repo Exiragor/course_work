@@ -16,7 +16,12 @@ router.post('/trainers/:id/edit', (req, res) => {
 
 router.get('/dev/generate/trainers', (req, res) => {
     controller.generator.generateTrainers();
-    res.send('ИДет заполенение');
+    res.send('Идет заполнение');
+});
+
+router.get('/dev/generate/visitors', (req, res) => {
+    controller.generator.generateVisitors();
+    res.send('Идет заполнение');
 });
 
 export default router;
