@@ -39,12 +39,12 @@ export class Trainers extends Controller {
         }
     }
 
-    public async editTrainer(data: any, res:any) {
+    public async editTrainer(id:any, data: any, res:any) {
         try{
             let position = {
                 field: 'TrainerID',
                 mark: null,
-                value: data.trainerID
+                value: id
             }
             let prop = {
                 trainerName: data.trainerName != '' ? data.trainerName : undefined,
@@ -52,10 +52,8 @@ export class Trainers extends Controller {
                 trainerPhone: data.trainerPhone != '' ? data.trainerPhone : undefined,
                 expirience: data.expirience != '' ? data.expirience : undefined
             }
-            await this.db.updateRow(this.tableName, position, prop)
-                .then((result) => {
-                    res.send('успешно');
-                });
+            await this.db.updateRow(this.tableName, position, prop);
+            res.send('успешно');
         }
         catch(err) {
             console.log(err);
