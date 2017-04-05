@@ -46,6 +46,8 @@ export class Routes{
             controller.generator.generateVisitors();
             res.send('Идет заполнение');
         });
+
+        return this.router.dev;
     }
 
 }
