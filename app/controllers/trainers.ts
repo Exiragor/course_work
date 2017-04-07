@@ -13,7 +13,9 @@ export class Trainers extends Controller {
 
     public async getTrainers(res: any) {
         try {
-            return res.json(await this.db.getTable(this.tableName));
+            await this.db.getTable(this.tableName).then(result => {
+                return res.json(result);
+            });
         }
         catch (err) {
             console.log(err);
@@ -28,10 +30,8 @@ export class Trainers extends Controller {
                 trainerPhone: data.phone,
                 expirience: data.exp 
             }];
-            await this.db.addRow(this.tableName, arProps)
-                .then((result) => {
-                    res.send('успешно');
-                });
+            await this.db.addRow(this.tableName, arProps);
+            res.send('успешно');
         }
         catch(err) {
             console.log(err);

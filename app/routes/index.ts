@@ -15,6 +15,7 @@ export class Routes{
             admin,
             dev
         };
+        
         for (let rout in this.router){
             this.router[rout] = express.Router();
         }
