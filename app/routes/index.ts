@@ -6,48 +6,61 @@ interface IRouter {
     dev: any
 }
 
-export class Routes{
-    router: IRouter;
+export class Routes {
+    private router: IRouter;
 
     constructor() {
         let admin, dev;
-        this.router = {
-            admin,
-            dev
-        };
-        
-        for (let rout in this.router){
-            this.router[rout] = express.Router();
+        this.router = { admin, dev }
+        for (let route in this.router) {
+            this.router[route] = express.Router();
         }
+
+        this.setAdminRoutes();
+        this.setDevRoutes();
+    }
+    
+    private setAdminRoutes(): void {
+        this.router.admin = this.trainerRoutes(this.router.admin);
     }
 
-    public getAdminRoutes() {
-        this.router.admin.get('/trainers', (req, res) => {
+    private trainerRoutes(router): any {
+        router.get('/trainers', (req, res) => {
             controller.trainers.getTrainers(res);
         });
-
-        this.router.admin.post('/trainers/add', (req, res) => {
+        router.post('/trainers/add', (req, res) => {
             controller.trainers.addTrainer(req.body, res);
         });
-
-        this.router.admin.post('/trainers/:id/edit', (req, res) => {
+        router.post('/trainers/:id/edit', (req, res) => {
             controller.trainers.editTrainer(req.params.id, req.body, res);
         });
 
-        return this.router.admin;
+        return router;
     }
 
-    public getDevRoutes() {
-        this.router.dev.get('/generate/trainers', (req, res) => {
+    private setDevRoutes(): void {
+        this.router.dev = this.generatorRoutes(this.router.dev);
+    }
+
+    private generatorRoutes(router): any {
+        router.get('/generate/trainers', (req, res) => {
             controller.generator.generateTrainers();
             res.send('Идет заполнение');
         });
 
-        this.router.dev.get('/generate/visitors', (req, res) => {
+        router.get('/generate/visitors', (req, res) => {
             controller.generator.generateVisitors();
             res.send('Идет заполнение');
         });
 
+        return router;
+    }
+
+    public getAdminRoutes(): any {
+        return this.router.admin;
+    }
+
+    public getDevRoutes(): any {
         return this.router.dev;
     }
 
