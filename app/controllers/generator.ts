@@ -101,9 +101,9 @@ class Generator extends Controller {
         });        
     }
 
-    private getRandom(min, max):number {
+    private getRandom(min, max): number {
         return Math.floor(Math.random() * (max - min) + min);
     }
 }
 
-export let generator = new Generator();
+export let generator: Generator = new Generator;

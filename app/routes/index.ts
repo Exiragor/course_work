@@ -2,8 +2,8 @@ import * as express from 'express';
 import controller from '../controllers';
 
 interface IRouter {
-    admin: any,
-    dev: any
+    admin: () => {},
+    dev: () => {}
 }
 
 export class Routes {
@@ -20,11 +20,8 @@ export class Routes {
         this.setDevRoutes();
     }
     
-    private setAdminRoutes(): void {
-        this.router.admin = this.trainerRoutes(this.router.admin);
-    }
 
-    private trainerRoutes(router): any {
+    private trainerRoutes(router): () => {} {
         router.get('/trainers', (req, res) => {
             controller.trainers.getTrainers(res);
         });
@@ -38,11 +35,7 @@ export class Routes {
         return router;
     }
 
-    private setDevRoutes(): void {
-        this.router.dev = this.generatorRoutes(this.router.dev);
-    }
-
-    private generatorRoutes(router): any {
+    private generatorRoutes(router): () => {} {
         router.get('/generate/trainers', (req, res) => {
             controller.generator.generateTrainers();
             res.send('Идет заполнение');
@@ -56,14 +49,23 @@ export class Routes {
         return router;
     }
 
-    public getAdminRoutes(): any {
+    private setAdminRoutes(): void {
+        this.router.admin = this.trainerRoutes(this.router.admin);
+    }
+
+    private setDevRoutes(): void {
+        this.router.dev = this.generatorRoutes(this.router.dev);
+    }
+
+
+    public getAdminRoutes(): () => {} {
         return this.router.admin;
     }
 
-    public getDevRoutes(): any {
+    public getDevRoutes(): () => {} {
         return this.router.dev;
     }
 
 }
 
-export let router = new Routes;
+export let router: Routes = new Routes;

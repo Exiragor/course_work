@@ -63,7 +63,7 @@ export class Trainers extends Controller {
 
 }
 
-export let trainers = new Trainers();
+export let trainers: Trainers = new Trainers;
 
 
 

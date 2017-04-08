@@ -3,7 +3,6 @@ import { generator } from './generator';
 
 
 export default {
-    test: 'hello',
     trainers,
     generator
 };
