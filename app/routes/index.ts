@@ -39,6 +39,12 @@ export class Routes {
         router.get('/visitors/view/', (req, res) => {
             controller.visitors.getAllVisitors(res);
         });
+        router.get('/visitors/add_new/', (req, res) => {
+            res.render('visitors/add_new', { mess: 'start'});
+        });
+        router.post('/visitors/add_new/', (req, res) => {
+            controller.visitors.addNewVisitor(req.body, res);
+        });
 
         return router;
     }

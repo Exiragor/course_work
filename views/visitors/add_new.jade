@@ -1,0 +1,26 @@
+extends ../extends/layout
+
+block content
+    article.module.width_full
+        header
+            h3 Добавление нового посетителя #{mess}
+        .module_content
+            form(method='POST')
+                fieldset
+                    label Фамилия, имя
+                    input(type="text" name="name")
+                fieldset
+                    label Возраст
+                    input(type="text" name="age")
+                fieldset
+                    label Адрес
+                    input(type="text" name="address")
+                fieldset
+                    label Телефон
+                    input(type="text" name="phone")
+                fieldset
+                    label Спортивная категория
+                    input(type="text" name="sport_category")
+                input.alt_btn.btn(type='submit' value='Добавить')
+            
+

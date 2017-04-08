@@ -1,0 +1,38 @@
+.content {
+    width: 95%;
+    padding: 20px;
+}
+
+.list-item {
+    width: 100%;
+    min-height: 20px;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.list-item--name {
+    background-color: #e0e0e3;
+}
+
+.list-item__col {
+    min-height: 20px;
+    width: 22.5%;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+}
+.list-item__col + .list-item__col {
+    border-left: 1px solid black;
+}
+
+.list-item__col--id {
+    width: 5%;
+}
+
+.list-item__col--age {
+    width: 5%;
+}
+
+.btn {
+    margin-top: 20px;
+}
