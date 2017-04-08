@@ -1,4 +1,4 @@
-import Controller from './controller';
+import Controller from './Controller';
 
 class Generator extends Controller {
 

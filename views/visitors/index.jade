@@ -1,0 +1,6 @@
+extends ../extends/layout
+
+block content
+    ul
+        -for item in allVisitors
+            li #{item.VisitorID} - #{item.visitorName} 

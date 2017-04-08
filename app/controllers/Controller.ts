@@ -2,7 +2,7 @@ import connect from '../models/dbDriver';
 import config from '../config';
 
 class Controller {
-    db: any;
+    db: connect;
 
     constructor() {
         this.db = new connect(config.dbConfig);

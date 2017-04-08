@@ -1,10 +1,17 @@
-import Controller from './controller';
+import Controller from './Controller';
 
-interface postData {
-    name: String,
-    address: String,
-    phone: String,
-    exp: String
+interface INewTrainer {
+    name: string,
+    address: string,
+    phone: string,
+    exp: string
+}
+
+interface IEditTrainer {
+    trainerName: string,
+    trainerAddress: string,
+    trainerPhone: string,
+    expirience: string
 }
 
 export class Trainers extends Controller {
@@ -22,7 +29,7 @@ export class Trainers extends Controller {
         }
     }
 
-    public async addTrainer(data:postData, res: any) {
+    public async addTrainer(data: INewTrainer, res: any) {
         try{
             let arProps = [{
                 trainerName: data.name,
@@ -39,7 +46,7 @@ export class Trainers extends Controller {
         }
     }
 
-    public async editTrainer(id:any, data: any, res:any) {
+    public async editTrainer(id: any, data: IEditTrainer, res: any) {
         try{
             let position = {
                 field: 'TrainerID',

@@ -35,6 +35,14 @@ export class Routes {
         return router;
     }
 
+    private visitorsRoutes(router: any) {
+        router.get('/visitors/view/', (req, res) => {
+            controller.visitors.getAllVisitors(res);
+        });
+
+        return router;
+    }
+
     private generatorRoutes(router): () => {} {
         router.get('/generate/trainers', (req, res) => {
             controller.generator.generateTrainers();
@@ -51,6 +59,7 @@ export class Routes {
 
     private setAdminRoutes(): void {
         this.router.admin = this.trainerRoutes(this.router.admin);
+        this.router.admin = this.visitorsRoutes(this.router.admin);
     }
 
     private setDevRoutes(): void {
