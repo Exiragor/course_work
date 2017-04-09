@@ -29,6 +29,18 @@ interface Position {
 
     }
 
+    public getRow(table: string, pos: any): Promise<any>{
+        return new Promise((resolve, reject) => {
+            this.db(table).select().where(pos.field, pos.value)
+                .then((res => {
+                    resolve(res);
+                }))
+                .catch((err) => {
+                    reject(err)
+                });
+        });
+    }
+
     public addRow(name: String, arProps: object[]):Promise<any> {
         return new Promise((resolve, reject) => {
             this.db(name).insert(arProps)

@@ -1,6 +1,11 @@
 .content {
     width: 95%;
     padding: 20px;
+    overflow: auto;
+}
+
+.content--visitor_table{
+    min-width: 1280px;
 }
 
 .list-item {
@@ -16,7 +21,7 @@
 
 .list-item__col {
     min-height: 20px;
-    width: 22.5%;
+    width: 21.5%;
     display: flex;
     align-items: center;
     padding: 5px 10px;
@@ -25,14 +30,24 @@
     border-left: 1px solid black;
 }
 
-.list-item__col--id {
-    width: 5%;
-}
-
-.list-item__col--age {
+.list-item__col--mini {
     width: 5%;
 }
 
 .btn {
     margin-top: 20px;
+}
+
+.icn_link{
+    width: 16px;
+    height: 17px;
+}
+
+.icn_link--trash{
+    background-image: url("/public/static/images/icn_trash.png");
+    margin-left: 8px;
+}
+
+.icn_link--edit{
+    background-image: url("/public/static/images/icn_edit.png");
 }

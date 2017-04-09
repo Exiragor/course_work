@@ -40,10 +40,16 @@ export class Routes {
             controller.visitors.getAllVisitors(res);
         });
         router.get('/visitors/add_new/', (req, res) => {
-            res.render('visitors/add_new', { mess: 'start'});
+            controller.visitors.formAddNew(res);
         });
         router.post('/visitors/add_new/', (req, res) => {
             controller.visitors.addNewVisitor(req.body, res);
+        });
+        router.get('/visitor/:id/edit', (req, res) => {
+            controller.visitors.editVisitorPage(req, res);
+        });
+        router.post('/visitor/:id/edit', (req, res) => {
+            controller.visitors.editVisitor(req.body, req.params.id, res);
         });
 
         return router;

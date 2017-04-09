@@ -1,31 +1,31 @@
 extends ../extends/layout
 
 block content
-    -if (status === 'okay')
+    -if (status === 'update')
         h4.alert_success #{mess}
     -if (status === 'err')
         h4.alert_error #{err}
 
     article.module.width_full
         header
-            h3 Добавление нового посетителя #{mess}
+            h3 Изменение текущего посетителя
         .module_content
             form(method='POST')
                 fieldset
                     label Фамилия, имя
-                    input(type="text" name="name" value='#{field.name}')
+                    input(type="text" name="name" value='#{fields.visitorName}')
                 fieldset
                     label Возраст
-                    input(type="text" name="age" value='#{field.age}')
+                    input(type="text" name="age" value='#{fields.visitorAge}')
                 fieldset
                     label Адрес
-                    input(type="text" name="address" value='#{field.address}')
+                    input(type="text" name="address" value='#{fields.visitorAddress}')
                 fieldset
                     label Телефон
-                    input(type="text" name="phone" value='#{field.phone}')
+                    input(type="text" name="phone" value='#{fields.visitorPhone}')
                 fieldset
                     label Спортивная категория
-                    input(type="text" name="sport_category" value='#{field.sport}')
-                input.alt_btn.btn(type='submit' value='Добавить')
+                    input(type="text" name="sport_category" value='#{fields.sportCategory}')
+                input.alt_btn.btn(type='submit' value='Изменить')
             
 

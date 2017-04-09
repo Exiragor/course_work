@@ -2,17 +2,21 @@ extends ../extends/layout
 
 block content
     .list-item.list-item--name
-        .list-item__col.list-item__col--id Номер  
+        .list-item__col.list-item__col--mini Действия
+        .list-item__col.list-item__col--mini Номер  
         .list-item__col Фамилия, имя
-        .list-item__col.list-item__col--age Возраст
+        .list-item__col.list-item__col--mini Возраст
         .list-item__col Адрес
         .list-item__col Телефон
         .list-item__col Спортивная категория
     -for item in allVisitors
         .list-item
-            .list-item__col.list-item__col--id #{item.VisitorID}  
+            .list-item__col.list-item__col--mini 
+                a.icn_link.icn_link--edit(href="/admin/visitor/#{item.VisitorID}/edit")
+                a.icn_link.icn_link--trash(href="/admin/visitor/#{item.VisitorID}/delete")
+            .list-item__col.list-item__col--mini #{item.VisitorID}  
             .list-item__col #{item.visitorName}
-            .list-item__col.list-item__col--age #{item.visitorAge}
+            .list-item__col.list-item__col--mini #{item.visitorAge}
             .list-item__col #{item.visitorAddress}
             .list-item__col #{item.visitorPhone}
             .list-item__col #{item.sportCategory}
