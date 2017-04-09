@@ -85,7 +85,7 @@ export class Visitors extends Controller{
         }
     }
 
-    public editVisitor(data: IDataAddNew, id:string, res) {
+    public async editVisitor(data: IDataAddNew, id:string, res) {
         if(this.mdwCheckData(data)) return res.render(
             'visitors/edit',
             {   
@@ -108,7 +108,7 @@ export class Visitors extends Controller{
             sportCategory: data.sport_category
         }
         try {
-            this.db.updateRow(this.tableName, position, arProps);
+            await this.db.updateRow(this.tableName, position, arProps);
             res.render(
                 'visitors/edit', 
                 { 
@@ -121,7 +121,7 @@ export class Visitors extends Controller{
         catch(err) {
             console.log(err);
             if(err.errno === 1062) res.render('visitors/edit', { status: 'err', err: 'Этот телефон уже указан для другого пользователя, телефон должен быть уникальным!',
-                fields: {visitorName: data.name, visitorAge: data.age, visitorAddress: data.address, visitorPhone: data.phone, sportCategory: data.sport_category} 
+                fields: {visitorName: data.name, visitorAge: data.age, visitorAddress: data.address, visitorPhone: data.phone, sportCategory: data.sport_category}
             });
         } 
     } 
