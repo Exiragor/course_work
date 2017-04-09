@@ -1,0 +1,15 @@
+extends ../extends/layout
+
+block content
+    article.module.width_full
+        header
+            h3 Войти
+        .module_content
+            form(method='POST')
+                fieldset
+                    label Логин
+                    input(type="text" name="username" value='')
+                fieldset
+                    label Пароль
+                    input(type="password" name="password" value='')
+                input.alt_btn.btn(type='submit' value='Войти')

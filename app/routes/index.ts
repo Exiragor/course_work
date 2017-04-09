@@ -69,7 +69,16 @@ export class Routes {
         return router;
     }
 
+    private mustBeAuthenticated(router) {
+        router.all('/*', (req, res, next) => {
+            req.isAuthenticated() ? next() : res.redirect('/');
+        });
+
+        return router;
+    }
+
     private setAdminRoutes(): void {
+        this.router.admin = this.mustBeAuthenticated(this.router.admin);
         this.router.admin = this.trainerRoutes(this.router.admin);
         this.router.admin = this.visitorsRoutes(this.router.admin);
     }

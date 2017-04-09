@@ -21,6 +21,7 @@
     "body-parser": "^1.17.1",
     "consolidate": "^0.14.5",
     "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.1",
     "core-js": "^2.4.1",
     "express": "^4.15.2",
     "jade": "^1.11.0",
