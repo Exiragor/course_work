@@ -8,15 +8,15 @@ block content
         .list-item__col.list-item__col--mini Возраст
         .list-item__col Адрес
         .list-item__col Телефон
-        .list-item__col Спортивная категория
+        .list-item__col Роль
     -for item in allVisitors
         .list-item
             .list-item__col.list-item__col--mini 
-                a.icn_link.icn_link--edit(href="/admin/visitor/#{item.VisitorID}/edit")
-                a.icn_link.icn_link--trash(href="/admin/visitor/#{item.VisitorID}/delete")
-            .list-item__col.list-item__col--mini #{item.VisitorID}  
-            .list-item__col #{item.visitorName}
-            .list-item__col.list-item__col--mini #{item.visitorAge}
-            .list-item__col #{item.visitorAddress}
-            .list-item__col #{item.visitorPhone}
-            .list-item__col #{item.sportCategory}
+                a.icn_link.icn_link--edit(href="/admin/user/#{item.UserID}/edit")
+                a.icn_link.icn_link--trash(href="/admin/user/#{item.UserID}/delete")
+            .list-item__col.list-item__col--mini #{item.UserID}  
+            .list-item__col #{item.Name}
+            .list-item__col.list-item__col--mini #{item.Age}
+            .list-item__col #{item.Address}
+            .list-item__col #{item.Phone}
+            .list-item__col #{item.Role}

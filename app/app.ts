@@ -26,14 +26,14 @@ app.set('views', path.join(__dirname +'/../views'));
 
 passport.use(
 	new localStrategy(
-		function(username, password, done) {
-		if (username != 'admin')
-			return done(null, false, {message: 'Неправильный логин'});
+		(username, password, done) => {
+			if (username != 'admin')
+				return done(null, false, {message: 'Неправильный логин'});
 
-		if (password != 'admin')
-			return done(null, false, {message: 'Неправильный пароль'});
+			if (password != 'admin')
+				return done(null, false, {message: 'Неправильный пароль'});
 
-		return done(null, {username: 'admin'});
+			return done(null, {username: 'admin'});
 		}
 	)
 );
@@ -45,28 +45,14 @@ passport.deserializeUser(function(id, done) {
 	done(null, {username: id});
 });
 
-let auth = passport.authenticate(
-	'local',{
-		successRedirect: '/admin/visitors/view',
-		failureRedirect: '/login'
-	});
-
-var mustBeAuthenticated = function(req, res, next) {
-	// body...
-	req.isAuthenticated() ? next() : res.redirect('/');
-};
+//routes
 
 app.use('/public', express.static(path.join(__dirname +'/../public')));
 
 app.use('/admin', router.getAdminRoutes());
 app.use('/dev', router.getDevRoutes());
-app.get('/login', (req, res) => {
-    res.render('auth/login');
-});
-app.get('/', auth);
-app.post('/login', auth);
-app.all('/admin', mustBeAuthenticated);
-// app.all('/admin/*', mustBeAuthenticated);
+app.use('/auth', router.getAuthRoutes());
+
 app.get('*', (req, res) => {
     res.render('index', {mess: 'Hello', text: 'Добро пожаловать!'});
 });

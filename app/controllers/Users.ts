@@ -5,18 +5,18 @@ interface IDataAddNew {
     age: string,
     address: string,
     phone: string,
-    sport_category: string
+    role: string
 }
 
-export class Visitors extends Controller{
+export class Users extends Controller{
     
-    private tableName: string = 'visitor';
+    private tableName: string = 'users';
     private arField: object = {
         name: '',
         age: '',
         address: '',
         phone: '',
-        sport: ''
+        role: ''
     };
 
     public async getAllVisitors(res: any) {
@@ -35,15 +35,15 @@ export class Visitors extends Controller{
         if (result) {
             return res.render( 
                 'visitors/add_new', 
-                { status: 'err', err: 'Все поля должны быть заполнены', field: { name: data.name, age: data.age, address: data.address, phone: data.phone, sport: data.sport_category}}
+                { status: 'err', err: 'Все поля должны быть заполнены', field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role}}
             );
         }
         let arProps = [{
-            visitorName: data.name,
-            visitorAge: data.age,
-            visitorAddress: data.address,
-            visitorPhone: data.phone,
-            sportCategory: data.sport_category
+            Name: data.name,
+            Age: data.age,
+            Address: data.address,
+            Phone: data.phone,
+            Role: data.role
         }];
 
         try {
@@ -53,7 +53,7 @@ export class Visitors extends Controller{
         catch(err) {
             console.log(err);
             if(err.errno === 1062) res.render('visitors/add_new', { status: 'err', err: 'Этот телефон уже указан для другого пользователя, телефон должен быть уникальным!',
-                field: { name: data.name, age: data.age, address: data.address, phone: data.phone, sport: data.sport_category} 
+                field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role} 
             });
         }
     } 
@@ -73,7 +73,7 @@ export class Visitors extends Controller{
 
     public async editVisitorPage(req, res) {
         let position = {
-            field: 'VisitorID',
+            field: 'UserID',
             value: req.params.id
         };
         try {
@@ -91,21 +91,21 @@ export class Visitors extends Controller{
             {   
                 status: 'err', 
                 err: 'Поля не могут оставаться пустыми', 
-                fields: {visitorName: data.name, visitorAge: data.age, visitorAddress: data.address, visitorPhone: data.phone, sportCategory: data.sport_category}
+                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role} 
             }
         );
 
         let position = {
-            field: 'VisitorID',
+            field: 'UserID',
             mark: null,
             value: id
         };
         let arProps = {
-            visitorName: data.name,
-            visitorAge: data.age,
-            visitorAddress: data.address,
-            visitorPhone: data.phone,
-            sportCategory: data.sport_category
+            Name: data.name,
+            Age: data.age,
+            Address: data.address,
+            Phone: data.phone,
+            Role: data.role
         }
         try {
             await this.db.updateRow(this.tableName, position, arProps);
@@ -114,18 +114,33 @@ export class Visitors extends Controller{
                 { 
                     status: 'update', 
                     mess: 'Успешно изменен', 
-                    fields: {visitorName: data.name, visitorAge: data.age, visitorAddress: data.address, visitorPhone: data.phone, sportCategory: data.sport_category}
+                    fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role}
                 }
             );
         }
         catch(err) {
             console.log(err);
             if(err.errno === 1062) res.render('visitors/edit', { status: 'err', err: 'Этот телефон уже указан для другого пользователя, телефон должен быть уникальным!',
-                fields: {visitorName: data.name, visitorAge: data.age, visitorAddress: data.address, visitorPhone: data.phone, sportCategory: data.sport_category}
+                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role}
             });
         } 
     } 
 
+    public async deleteUser(id: string, res) {
+        let position = {
+            field: 'UserID',
+            mark: null,
+            value: id
+        };
+        try {
+            await this.db.deleteRow(this.tableName, position);
+            res.redirect('/admin/users/view');
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
 }
 
-export let visitors: Visitors = new Visitors;
+export let users: Users = new Users;

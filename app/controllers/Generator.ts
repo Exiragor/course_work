@@ -32,7 +32,7 @@ class Generator extends Controller {
     }
 
     public async generateVisitors() {
-        let table = 'visitor';
+        let table = 'users';
         try{
             let arProps = await this.generatePropsForVisitors();
             await this.db.addRow(table, arProps);
@@ -90,11 +90,10 @@ class Generator extends Controller {
                 let age = this.getRandom(8, 41);
                 let sportCategory = this.getRandom(1, 4);
                 arProps.push({
-                    visitorName: fullname,
-                    visitorAge: age,
-                    visitorAddress: 'Город ' + this.arCity[city],
-                    visitorPhone: `${phone}`,
-                    sportCategory: 'Разряд ' + sportCategory 
+                    Name: fullname,
+                    Age: age,
+                    Address: 'Город ' + this.arCity[city],
+                    Phone: `${phone}`
                 });    
             }
             resolve(arProps);  

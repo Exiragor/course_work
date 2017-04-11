@@ -65,12 +65,33 @@ interface Position {
             this.db(name)
                 .where(...whereProps)
                 .update(Props)
-            .then((res) => {
+            .then(res => {
                 resolve(res);
             })
-            .catch((err) => {
+            .catch(err => {
                 reject(err);
             });
+        });
+    }
+
+    public deleteRow(name: string, pos: Position): Promise<any> {
+        return new Promise((resolve, reject) => {
+            let whereProps: String[];
+
+            if(pos.mark === null)
+                whereProps = [pos.field, pos.value];
+            else
+                whereProps = [pos.field, pos.mark, pos.value];
+
+            this.db(name)
+                .where(...whereProps)
+                .del()
+            .then(result => {
+                resolve(result);
+            })
+            .catch(err => {
+                reject(err);
+            })
         });
     }
 

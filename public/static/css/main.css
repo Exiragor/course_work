@@ -46,8 +46,26 @@
 .icn_link--trash{
     background-image: url("/public/static/images/icn_trash.png");
     margin-left: 8px;
+    height: 14px;
 }
 
 .icn_link--edit{
     background-image: url("/public/static/images/icn_edit.png");
+}
+
+fieldset input[type=password] {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+    -webkit-box-shadow: inset 0 2px 2px #ccc, 0 1px 0 #fff;
+    -moz-box-shadow: inset 0 2px 2px #ccc, 0 1px 0 #fff;
+    box-shadow: inset 0 2px 2px #ccc, 0 1px 0 #fff;
+    padding-left: 10px;
+    background-position: 10px 6px;
+    margin: 0;
+    display: block;
+    float: left;
+    width: 96%;
+    margin: 0 10px;
 }

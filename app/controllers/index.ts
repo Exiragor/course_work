@@ -1,11 +1,11 @@
 import { trainers } from './Trainers';
 import { generator } from './Generator';
-import { visitors } from './Visitors';
+import { users } from './Users';
 
 
 export default {
     trainers,
     generator,
-    visitors
+    users
 };
 
