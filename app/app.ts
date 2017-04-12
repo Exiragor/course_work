@@ -27,9 +27,9 @@ passport.startAuth();
 
 app.use('/public', express.static(path.join(__dirname +'/../public')));
 
-app.use('/admin', router.getAdminRoutes());
-app.use('/dev', router.getDevRoutes());
-app.use('/auth', router.getAuthRoutes());
+app.use('/admin', 	router.getAdminRoutes());
+app.use('/dev', 	router.getDevRoutes());
+app.use('/auth', 	router.getAuthRoutes());
 app.use('/profile', router.getProfileRoutes());
 
 app.get('*', (req, res) => {

@@ -14,7 +14,7 @@ interface IDataRegistration {
     password: string
 }
 
-export class Users extends Controller{
+export class Users extends Controller {
     
     private tableName: string = 'users';
     private arField: object = {

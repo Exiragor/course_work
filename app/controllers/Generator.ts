@@ -7,6 +7,7 @@ class Generator extends Controller {
     SecondNamesM: string[];
     SecondNamesW: string[];
     arCity: string[];
+    numUser: number;
 
     constructor() {
         super();
@@ -102,6 +103,43 @@ class Generator extends Controller {
 
     private getRandom(min, max): number {
         return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    public async generateMembersForGroup() {
+        let table = 'membersOfGroup';
+        this.numUser = 101;
+        let arProps: Object[] = [];
+        for (let i:number = 21; i < 36; i++) {
+            for (let j: number = 0; j < 5; j++) {
+                arProps.push({
+                    GroupID: i,
+                    UserID: this.numUser
+                });
+                this.numUser++;
+            }
+        }
+
+        try {
+            await this.db.addRow(table, arProps);  
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+    public async generatePayment() {
+        let table = 'payment';
+        let arProps: Object[] = [];
+        for (let i: number = 0; i < 20; i++)
+            arProps.push({
+                visitor: this.getRandom(1, 189)
+            });
+        try {
+            await this.db.addRow(table, arProps);
+        }
+        catch(err) {
+            console.log(err);
+        }
     }
 }
 

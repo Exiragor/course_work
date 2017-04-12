@@ -73,6 +73,14 @@ export class Routes {
             controller.generator.generateVisitors();
             res.send('Идет заполнение');
         });
+        router.get('/generate/members', (req, res) => {
+            controller.generator.generateMembersForGroup();
+            res.send('Идет заполнение');
+        });
+        router.get('/generate/payment', (req, res) => {
+            controller.generator.generatePayment();
+            res.send('Идет заполнение');
+        });
 
         return router;
     }
