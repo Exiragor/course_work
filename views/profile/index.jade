@@ -1,0 +1,12 @@
+extends ../extends/layout
+
+block content
+	article.module.width_full
+		header
+			h3 Информация о профиле
+		.module_content
+			h3 Имя: #{field.Name}
+			h3 Возраст: #{field.Age}
+			h3 Адрес: #{field.Address}
+			h3 Телефон: #{field.Phone}
+			h3 Роль: #{field.Role}

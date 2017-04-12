@@ -5,15 +5,17 @@ import * as passport from 'passport';
 interface IRouter {
     admin: () => {},
     dev: () => {},
-    auth: () => {}
+    auth: () => {},
+    profile: () => {}
 }
 
 export class Routes {
+
     private router: IRouter;
 
     constructor() {
-        let admin, dev, auth;
-        this.router = { admin, dev, auth }
+        let admin, dev, auth, profile;
+        this.router = { admin, dev, auth, profile }
         for (let route in this.router) {
             this.router[route] = express.Router();
         }
@@ -21,6 +23,7 @@ export class Routes {
         this.setAdminRoutes();
         this.setDevRoutes();
         this.setAuthRoutes();
+        this.setProfileRoutes();
     }
     
 
@@ -78,18 +81,34 @@ export class Routes {
         let auth = passport.authenticate(
                 'local',
                 {
-                    successRedirect: '/admin/users/view',
-                    failureRedirect: '/auth/login'
+                    successRedirect: '/profile',
+                    failureRedirect: '/auth/login',
+                    failureFlash: true
                 }
         );
 
         router.get('/login', (req, res) => {
-            res.render('auth/login');
+            res.render('auth/login', {mess: req.flash('errLogin')});
         });
         router.post('/login', auth);
         router.get("/logout", (req, res) => {
             req.logout();
-            res.redirect('/');
+            res.redirect('/auth/login');
+        });
+        router.get('/registration', (req, res) => {
+            res.render('auth/registration');
+        });
+        router.post('/registration', (req, res) => {
+            controller.users.registrationUser(req.body, res);
+        });
+
+
+        return router;
+    }
+
+    private profileRoutes(router) {
+        router.get('/', (req, res) => {
+            controller.users.getUserProfile(req.user, res);
         });
 
         return router;
@@ -97,7 +116,15 @@ export class Routes {
 
     private mustBeAuthenticated(router) {
         router.all('/*', (req, res, next) => {
-            req.isAuthenticated() ? next() : res.redirect('/');
+            req.isAuthenticated() ? next() : res.redirect('/auth/login');
+        });
+
+        return router;
+    }
+
+    private mustBeAdminRole(router) {
+        router.all('/*', (req, res, next) => {
+            controller.users.checkAdminRole(req.user, res, next);
         });
 
         return router;
@@ -105,6 +132,7 @@ export class Routes {
 
     private setAdminRoutes(): void {
         this.router.admin = this.mustBeAuthenticated(this.router.admin);
+        this.router.admin = this.mustBeAdminRole(this.router.admin);
         this.router.admin = this.trainerRoutes(this.router.admin);
         this.router.admin = this.usersRoutes(this.router.admin);
     }
@@ -115,6 +143,11 @@ export class Routes {
 
     private setDevRoutes(): void {
         this.router.dev = this.generatorRoutes(this.router.dev);
+    }
+
+    private setProfileRoutes() {
+        this.router.profile = this.mustBeAuthenticated(this.router.profile);
+        this.router.profile = this.profileRoutes(this.router.profile);
     }
 
 
@@ -128,6 +161,10 @@ export class Routes {
 
     public getAuthRoutes(): () => {} {
         return this.router.auth;
+    }
+
+    public getProfileRoutes(): () =>{} {
+        return this.router.profile;
     }
 
 }

@@ -1,18 +1,22 @@
 extends ../extends/layout
 
 block content
-    -if (mess != '')
+    -if (status === 'success')
+        h4.alert_success #{mess}
+    -if (status === 'err')
         h4.alert_error #{mess}
-
     article.module.width_full
         header
-            h3 Войти
+            h3 Регистрация
         .module_content
             form(method='POST')
+                fieldset
+                    label Ваш телефон
+                    input(type="text" name="phone" value='')
                 fieldset
                     label Логин
                     input(type="text" name="username" value='')
                 fieldset
                     label Пароль
                     input(type="password" name="password" value='')
-                input.alt_btn.btn(type='submit' value='Войти')
+                input.alt_btn.btn(type='submit' value='Зарегестрироваться')

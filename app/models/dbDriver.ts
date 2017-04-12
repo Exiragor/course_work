@@ -1,9 +1,9 @@
 import * as knex from 'knex';
 
 interface Position {
-    field: String,
-    mark: String | null,
-    value: String
+    field: string,
+    mark: string | null,
+    value: string
 }
 
  class Tasks {
@@ -29,9 +29,16 @@ interface Position {
 
     }
 
-    public getRow(table: string, pos: any): Promise<any>{
+    public getRow(table: string, pos: Position): Promise<any>{
         return new Promise((resolve, reject) => {
-            this.db(table).select().where(pos.field, pos.value)
+            let whereProps: string[];
+
+            if(pos.mark === null)
+                whereProps = [pos.field, pos.value];
+            else
+                whereProps = [pos.field, pos.mark, pos.value];
+
+            this.db(table).select().where(...whereProps)
                 .then((res => {
                     resolve(res);
                 }))

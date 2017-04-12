@@ -8,6 +8,12 @@ interface IDataAddNew {
     role: string
 }
 
+interface IDataRegistration {
+    phone: string,
+    username: string,
+    password: string
+}
+
 export class Users extends Controller{
     
     private tableName: string = 'users';
@@ -58,7 +64,7 @@ export class Users extends Controller{
         }
     } 
 
-    private mdwCheckData(data: IDataAddNew) {
+    private mdwCheckData(data: any) {
         for (let item in data) {
             if(data[item] === ''){
                 return true;
@@ -74,6 +80,7 @@ export class Users extends Controller{
     public async editVisitorPage(req, res) {
         let position = {
             field: 'UserID',
+            mark: null,
             value: req.params.id
         };
         try {
@@ -135,6 +142,85 @@ export class Users extends Controller{
         try {
             await this.db.deleteRow(this.tableName, position);
             res.redirect('/admin/users/view');
+        }
+        catch(err) {
+            console.log(err);
+        }
+
+    }
+
+    public async registrationUser(data: IDataRegistration, res) {
+        if(this.mdwCheckData(data))
+            return res.render('auth/registration', {status: 'err', mess: 'Все поля должны быть заполнены'});
+
+        let position = {
+            field: 'phone',
+            mark: null,
+            value: data.phone
+        };
+        let arProps = {
+            login: data.username,
+            password: data.password
+        }
+        
+        try {
+            let result = await this.db.getRow(this.tableName, position);
+            if(result.length === 0)
+                return res.render(
+                    'auth/registration', 
+                    { 
+                        status: 'err', 
+                        mess: 'Данного телефона нет в базе данных Спорткомплекса, обратитесь к администратору для решения этого вопроса.' 
+                    }
+                );
+            if(result[0].login != null)
+                return res.render(
+                    'auth/registration', 
+                    { 
+                        status: 'err', 
+                        mess: 'Вы уже зарегистрированы, если не помните логин и пароль, обратитесь к администратору.' 
+                    }
+                );
+
+
+            await this.db.updateRow(this.tableName, position, arProps);
+            res.render(
+                'auth/registration', 
+                { 
+                    status: 'success', 
+                    mess: 'Успешная регистрация' 
+                }
+            );
+        }
+        catch(err) {
+            console.log(err);
+            if(err.errno === 1062) res.render('auth/registration', { status: 'err', mess: 'Данный логин занят' });
+        } 
+
+    }
+
+    public async getUserProfile(user, res) {
+        let position = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        let result = await this.db.getRow(this.tableName, position);
+        return res.render('profile/index', { field: result[0]});
+    }
+
+    public async checkAdminRole(user, res, next) {
+        let position = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        try {
+           let result = await this.db.getRow(this.tableName, position);
+           let role = result[0].Role;
+           if(role == 'Админ')
+               return next();
+           return res.render('profile/failAdmin');
         }
         catch(err) {
             console.log(err);
