@@ -69,3 +69,7 @@ fieldset input[type=password] {
     width: 96%;
     margin: 0 10px;
 }
+
+.rollback_edit{
+    margin-left: 15px;
+}

@@ -118,6 +118,9 @@ export class Routes {
         router.get('/', (req, res) => {
             controller.users.getUserProfile(req.user, res);
         });
+        router.get('/edit', (req, res) => {
+            controller.users.editUserProfilePage(req.user, res);
+        });
 
         return router;
     }

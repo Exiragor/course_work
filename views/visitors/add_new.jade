@@ -1,5 +1,8 @@
 extends ../extends/layout
 
+block aside
+    include aside
+
 block content
     -if (status === 'okay')
         h4.alert_success #{mess}

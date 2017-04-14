@@ -33,7 +33,7 @@ app.use('/auth', 	router.getAuthRoutes());
 app.use('/profile', router.getProfileRoutes());
 
 app.get('*', (req, res) => {
-    res.render('index', {mess: 'Hello', text: 'Добро пожаловать!'});
+    res.render('index', { text: 'Добро пожаловать!' user: false});
 });
 
 

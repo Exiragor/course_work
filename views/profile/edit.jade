@@ -1,7 +1,7 @@
 extends ../extends/layout
 
 block aside
-    include aside
+    include ../extends/aside_profile
 
 block content
     -if (status === 'update')
@@ -11,24 +11,20 @@ block content
 
     article.module.width_full
         header
-            h3 Изменение текущего посетителя
+            h3 Изменить профиль
         .module_content
             form(method='POST')
                 fieldset
                     label Фамилия, имя
-                    input(type="text" name="name" value='#{fields.Name}')
+                    input(type="text" name="name" value='#{field.Name}')
                 fieldset
                     label Возраст
-                    input(type="text" name="age" value='#{fields.Age}')
+                    input(type="text" name="age" value='#{field.Age}')
                 fieldset
                     label Адрес
-                    input(type="text" name="address" value='#{fields.Address}')
+                    input(type="text" name="address" value='#{field.Address}')
                 fieldset
                     label Телефон
-                    input(type="text" name="phone" value='#{fields.Phone}')
-                fieldset
-                    label Спортивная категория
-                    input(type="text" name="role" value='#{fields.Role}')
+                    input(type="text" name="phone" value='#{field.Phone}')
                 input.alt_btn.btn(type='submit' value='Изменить')
-            
-
+                a.btn.rollback_edit(href='/profile/edit') Вернуть начальные параметры

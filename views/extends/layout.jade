@@ -46,12 +46,17 @@ html
                     a(href="/") Спорткомплекc
                 h2.section_title Панель сайта
                 .btn_view_site
-                    a(href="/auth/logout") Выйти
+                    -if (!user)
+                        a(href="/auth/login") Войти
+                    -else
+                        a(href="/auth/logout") Выйти
         section#secondary_bar
             .user
-                p Admin
+                -if (!user)
+                    p Гость
+                -else
+                    p #{user}
         block aside
-            include aside
         section#main.column
             .content
                 block content

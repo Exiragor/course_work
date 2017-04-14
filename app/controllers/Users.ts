@@ -14,6 +14,13 @@ interface IDataRegistration {
     password: string
 }
 
+interface IDataEditProfile {
+    name: string,
+    age: string,
+    address: string,
+    phone: string
+}
+
 export class Users extends Controller {
     
     private tableName: string = 'users';
@@ -206,7 +213,7 @@ export class Users extends Controller {
             value: user.username
         }
         let result = await this.db.getRow(this.tableName, position);
-        return res.render('profile/index', { field: result[0]});
+        return res.render('profile/index', { field: result[0], user: user.username});
     }
 
     public async checkAdminRole(user, res, next) {
@@ -220,11 +227,30 @@ export class Users extends Controller {
            let role = result[0].Role;
            if(role == 'Админ')
                return next();
-           return res.render('profile/failAdmin');
+           return res.render('profile/failAdmin', { user: user.username});
         }
         catch(err) {
             console.log(err);
         }
+    }
+
+    public async editUserProfilePage(user, res) {
+        let position = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        let result = await this.db.getRow(this.tableName, position);
+        return res.render('profile/edit', { field: result[0], user: user.username});
+    }
+
+    public async editUserProfile(data:IDataEditProfile, user, res) {
+        if (this.mdwCheckData(data)) 
+            res.render('profile/edit', { status: err, mess: 'Поля не должны оставаться пустыми', user: user.username});
+        if (+(data.age) <= 0)
+            res.render('profile/edit', { status: err, mess: 'Возраст должен быть больше нуля', user: user.username});
+        
+
     }
 
 }
