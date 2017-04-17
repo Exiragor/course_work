@@ -27,13 +27,13 @@ passport.startAuth();
 
 app.use('/public', express.static(path.join(__dirname +'/../public')));
 
-app.use('/admin', 	router.getAdminRoutes());
+app.use('/admin',   router.getAdminRoutes());
 app.use('/dev', 	router.getDevRoutes());
 app.use('/auth', 	router.getAuthRoutes());
 app.use('/profile', router.getProfileRoutes());
 
 app.get('*', (req, res) => {
-    res.render('index', { text: 'Добро пожаловать!' user: false});
+    res.render('index', { text: 'Добро пожаловать!', user: false});
 });
 
 

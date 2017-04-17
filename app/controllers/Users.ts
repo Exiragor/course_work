@@ -24,7 +24,7 @@ interface IDataEditProfile {
 export class Users extends Controller {
     
     private tableName: string = 'users';
-    private arField: object = {
+    private arField: Object = {
         name: '',
         age: '',
         address: '',
@@ -142,21 +142,24 @@ export class Users extends Controller {
 
     public async deleteUser(id: string, res) {
         let position = {
-            field: 'UserID',
-            mark: null,
-            value: id
-        };
-        try {
+                field: 'UserID',
+                mark: null,
+                value: id
+            };
+        try
+        {
             await this.db.deleteRow(this.tableName, position);
             res.redirect('/admin/users/view');
         }
-        catch(err) {
+        catch (err)
+        {
             console.log(err);
         }
 
     }
 
-    public async registrationUser(data: IDataRegistration, res) {
+    public async registrationUser(data: IDataRegistration, res)
+    {
         if(this.mdwCheckData(data))
             return res.render('auth/registration', {status: 'err', mess: 'Все поля должны быть заполнены'});
 
@@ -170,7 +173,8 @@ export class Users extends Controller {
             password: data.password
         }
         
-        try {
+        try
+        {
             let result = await this.db.getRow(this.tableName, position);
             if(result.length === 0)
                 return res.render(
@@ -199,7 +203,8 @@ export class Users extends Controller {
                 }
             );
         }
-        catch(err) {
+        catch (err)
+        {
             console.log(err);
             if(err.errno === 1062) res.render('auth/registration', { status: 'err', mess: 'Данный логин занят' });
         } 
@@ -212,7 +217,15 @@ export class Users extends Controller {
             mark: null,
             value: user.username
         }
-        let result = await this.db.getRow(this.tableName, position);
+        try
+        {
+            let result = await this.db.getRow(this.tableName, position);
+            //let sections = await this.db.getRelativeTable();
+        }
+        catch (err)
+        {
+            console.log(err);
+        }
         return res.render('profile/index', { field: result[0], user: user.username});
     }
 
@@ -245,10 +258,10 @@ export class Users extends Controller {
     }
 
     public async editUserProfile(data:IDataEditProfile, user, res) {
-        if (this.mdwCheckData(data)) 
-            res.render('profile/edit', { status: err, mess: 'Поля не должны оставаться пустыми', user: user.username});
+        if (this.mdwCheckData(data))
+            res.render('profile/edit', { status: 'err', mess: 'Поля не должны оставаться пустыми', user: user.username});
         if (+(data.age) <= 0)
-            res.render('profile/edit', { status: err, mess: 'Возраст должен быть больше нуля', user: user.username});
+            res.render('profile/edit', { status: 'err', mess: 'Возраст должен быть больше нуля', user: user.username});
         
 
     }
