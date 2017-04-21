@@ -1,0 +1,22 @@
+extends ../extends/layout
+
+block aside
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
+
+block content
+    -if (status == 'del')
+        h4.alert_warning Вы отказались от мероприятия, для отмены данного действия обратитесь к администратору.
+    article.module.width_full
+        header
+            h3 Запланированные к посещению мероприятия
+        .module_content
+            -if (events[0] != undefined)
+                -for item in events
+                    .link_user_event
+                        a(href='/event/#{item.event}/view') #{item.name}
+                        a.link_del_user_event(href="/profile/event/pay/#{item.PayID}/delete") отказаться
+            -else
+                p У вас нет запланнированных к посещению мероприятий

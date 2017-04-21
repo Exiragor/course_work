@@ -1,0 +1,34 @@
+extends ../extends/layout
+
+block aside
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
+
+block content
+    article.module.width_full
+        header
+            h3 Название
+        .module_content
+            h2 #{section.name} 
+    article.module.width_full
+        header
+            h3 Описание
+        .module_content
+            p #{section.decription}
+    article.module.width_full
+        header
+            h3 Тренера
+        .module_content
+            ul
+                - for (let item of trainers)
+                    li 
+                        a(href='/trainer/#{item.TrainerID}/view') #{item.trainerName}
+    article.module.width_full
+        header
+            h3 Помещения, в которых проводятся занятия
+        .module_content
+            ul
+                - for (let item of rooms)
+                    li #{item.type}

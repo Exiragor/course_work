@@ -1,0 +1,24 @@
+extends ../extends/layout
+
+block aside
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
+
+block content
+    article.module.width_full
+        header
+            h3 Все секции
+        .module_content
+            ul 
+                -for (let section of sections)
+                    li
+                        a(href='/section/#{section.SpSecID}/view') #{section.name}
+    article.module.width_full
+        header
+            h3 Поиск
+        .module_content
+            form(method="post").quick_search
+                input(type="text" value="Быстрый поиск" name='filter' onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;")
+                input.alt_btn.btn(type='submit' value='Поиск')

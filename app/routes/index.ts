@@ -6,7 +6,10 @@ interface IRouter {
     admin: () => {},
     dev: () => {},
     auth: () => {},
-    profile: () => {}
+    profile: () => {},
+    section: () => {},
+    event: () => {},
+    trainer: () => {}
 }
 
 export class Routes {
@@ -14,8 +17,8 @@ export class Routes {
     private router: IRouter;
 
     constructor() {
-        let admin, dev, auth, profile;
-        this.router = { admin, dev, auth, profile }
+        let admin, dev, auth, profile, section, event, trainer;
+        this.router = { admin, dev, auth, profile, section, event, trainer }
         for (let route in this.router) {
             this.router[route] = express.Router();
         }
@@ -24,13 +27,16 @@ export class Routes {
         this.setDevRoutes();
         this.setAuthRoutes();
         this.setProfileRoutes();
+        this.setSecionRoutes();
+        this.setEventRoutes();
+        this.setTrainersRoutes();
     }
     
 
     private trainerRoutes(router): () => {} {
-        router.get('/trainers', (req, res) => {
-            controller.trainers.getTrainers(res);
-        });
+        // router.get('/trainers', (req, res) => {
+        //     controller.trainers.getTrainers(res);
+        // });
         router.post('/trainers/add', (req, res) => {
             controller.trainers.addTrainer(req.body, res);
         });
@@ -43,19 +49,19 @@ export class Routes {
 
     private usersRoutes(router: any) {
         router.get('/users/view/', (req, res) => {
-            controller.users.getAllVisitors(res);
+            controller.users.getAllVisitors(req.user, res);
         });
         router.get('/users/add_new/', (req, res) => {
-            controller.users.formAddNew(res);
+            controller.users.formAddNew(req.user, res);
         });
         router.post('/users/add_new/', (req, res) => {
-            controller.users.addNewVisitor(req.body, res);
+            controller.users.addNewVisitor(req.user, req.body, res);
         });
         router.get('/user/:id/edit', (req, res) => {
             controller.users.editVisitorPage(req, res);
         });
         router.post('/user/:id/edit', (req, res) => {
-            controller.users.editVisitor(req.body, req.params.id, res);
+            controller.users.editVisitor(req.user, req.body, req.params.id, res);
         });
         router.get('/user/:id/delete', (req, res) => {
             controller.users.deleteUser(req.params.id, res);
@@ -121,6 +127,60 @@ export class Routes {
         router.get('/edit', (req, res) => {
             controller.users.editUserProfilePage(req.user, res);
         });
+        router.post('/edit', (req, res) => {
+            controller.users.editUserProfile(req.body, req.user, res);
+        });
+        router.get('/sections', (req, res) => {
+            controller.users.getUserSections(req.user, res);
+        });
+        router.get('/events', (req, res) => {
+            controller.events.getUserEvents(req.user, res);
+        })
+        router.get('/event/pay/:id/delete', (req, res) => {
+            controller.events.delUserEvent(req.user, req.params.id, res);
+        });
+
+        return router;
+    }
+
+    private sectionRoutes(router) {
+        router.get('/:id/view', (req, res) => {
+            controller.sections.getSectionInfo(req.user, req.params.id, res);
+        });
+        router.get('/all', (req, res) => {
+            controller.sections.getAllSections(req.user, res);
+        });
+        router.post('/all', (req, res) => {
+            controller.sections.getAllSectionsFilter(req.user, req.body.filter, res);
+        });
+
+        return router;
+    }
+
+    private eventRoutes(router) {
+        router.get('/:id/view', (req, res) => {
+            controller.events.getEventInfo(req.user, req.params.id, res);
+        });
+        router.get('/all', (req, res) => {
+            controller.events.getAllEvents(req.user, res);
+        });
+        router.post('/all', (req, res) => {
+            controller.events.getAllEventsFilter(req.user, req.body.filter, res);
+        });
+
+        return router;
+    }
+
+    private trainersRoutes(router) {
+        router.get('/:id/view', (req, res) => {
+            controller.trainers.getTrainer(req.user, req.params.id, res);
+        });
+        router.get('/all', (req, res) => {
+            controller.trainers.getTrainers(req.user, res);
+        });
+        router.post('/all', (req, res) => {
+            controller.trainers.getTrainersFilter(req.user, req.body.filter, res);
+        });
 
         return router;
     }
@@ -161,6 +221,21 @@ export class Routes {
         this.router.profile = this.profileRoutes(this.router.profile);
     }
 
+    private setSecionRoutes() {
+        this.router.section = this.mustBeAuthenticated(this.router.section);
+        this.router.section = this.sectionRoutes(this.router.section);
+    }
+
+    private setEventRoutes() {
+        this.router.event = this.mustBeAuthenticated(this.router.event);
+        this.router.event = this.eventRoutes(this.router.event);
+    }
+
+    private setTrainersRoutes() {
+        this.router.trainer = this.mustBeAuthenticated(this.router.trainer);
+        this.router.trainer = this.trainersRoutes(this.router.trainer);
+    }
+
 
     public getAdminRoutes(): () => {} {
         return this.router.admin;
@@ -178,6 +253,17 @@ export class Routes {
         return this.router.profile;
     }
 
+    public getSectionRoutes(): () => {} {
+        return this.router.section;
+    }
+
+    public getEventRoutes(): () => {} {
+        return this.router.event;
+    }
+
+    public getTrainersRoutes() {
+        return this.router.trainer;
+    }
 }
 
 export let router: Routes = new Routes;

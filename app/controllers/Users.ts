@@ -32,10 +32,10 @@ export class Users extends Controller {
         role: ''
     };
 
-    public async getAllVisitors(res: any) {
+    public async getAllVisitors(user, res: any) {
         try {
             let result = await this.db.getTable(this.tableName);
-            return res.render('visitors/index', { allVisitors: result });
+            return res.render('visitors/index', { allVisitors: result, user: user.username });
         }
         catch(err) {
             console.log(err);
@@ -43,12 +43,18 @@ export class Users extends Controller {
     }  
 
 
-    public async addNewVisitor(data: IDataAddNew ,res: any) {
+    public async addNewVisitor(user, data: IDataAddNew ,res: any) {
         let result = this.mdwCheckData(data);
         if (result) {
             return res.render( 
                 'visitors/add_new', 
-                { status: 'err', err: 'Все поля должны быть заполнены', field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role}}
+                { status: 'err', err: 'Все поля должны быть заполнены', field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role, user: user.username}}
+            );
+        }
+        if (+(data.age) <= 0) {
+            return res.render( 
+                'visitors/add_new', 
+                { status: 'err', err: 'Возраст должен быть больше нуля', field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role, user: user.username}}
             );
         }
         let arProps = [{
@@ -61,12 +67,12 @@ export class Users extends Controller {
 
         try {
             await this.db.addRow(this.tableName, arProps);
-            res.render('visitors/add_new', { status: 'okay', mess: 'Посетитель успешно добавлен', field: this.arField});
+            res.render('visitors/add_new', { status: 'okay', mess: 'Посетитель успешно добавлен', field: this.arField, user: user.username});
         }
         catch(err) {
             console.log(err);
             if(err.errno === 1062) res.render('visitors/add_new', { status: 'err', err: 'Этот телефон уже указан для другого пользователя, телефон должен быть уникальным!',
-                field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role} 
+                field: { name: data.name, age: data.age, address: data.address, phone: data.phone, role: data.role}, user: user.username 
             });
         }
     } 
@@ -80,8 +86,8 @@ export class Users extends Controller {
         return false;
     }
 
-    public formAddNew(res) {
-        res.render('visitors/add_new', { field: this.arField});
+    public formAddNew(user, res) {
+        res.render('visitors/add_new', { field: this.arField, user: user.username});
     }
 
     public async editVisitorPage(req, res) {
@@ -92,20 +98,28 @@ export class Users extends Controller {
         };
         try {
             let result = await this.db.getRow(this.tableName, position);
-            res.render('visitors/edit', { fields: result[0]});
+            res.render('visitors/edit', { fields: result[0], user: req.user.username});
         }
         catch(err) {
             console.log(err);
         }
     }
 
-    public async editVisitor(data: IDataAddNew, id:string, res) {
+    public async editVisitor(user, data: IDataAddNew, id:string, res) {
         if(this.mdwCheckData(data)) return res.render(
             'visitors/edit',
             {   
                 status: 'err', 
                 err: 'Поля не могут оставаться пустыми', 
-                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role} 
+                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role, user: user.username} 
+            }
+        );
+        if(+(data.age) <= 0) return res.render(
+            'visitors/edit',
+            {   
+                status: 'err', 
+                err: 'Возраст должен быть больше нуля', 
+                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role, user: user.username} 
             }
         );
 
@@ -128,14 +142,14 @@ export class Users extends Controller {
                 { 
                     status: 'update', 
                     mess: 'Успешно изменен', 
-                    fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role}
+                    fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role, user: user.username}
                 }
             );
         }
         catch(err) {
             console.log(err);
             if(err.errno === 1062) res.render('visitors/edit', { status: 'err', err: 'Этот телефон уже указан для другого пользователя, телефон должен быть уникальным!',
-                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role}
+                fields: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: data.role, user: user.username}
             });
         } 
     } 
@@ -220,13 +234,46 @@ export class Users extends Controller {
         try
         {
             let result = await this.db.getRow(this.tableName, position);
-            //let sections = await this.db.getRelativeTable();
+            let sections = await this.db.get4RelativeTable('users', 'membersOfGroup', 'group', 'sportSection', 
+            'UserID', 'UserID', 'GroupID', 'GroupID', 'sportSection', 'SpSecID', result[0].UserID);
+            let section = '';
+            if (sections[0])
+            {
+                section = sections[0].name;
+            }
+            return res.render('profile/index', { field: result[0], user: user.username});
         }
         catch (err)
         {
             console.log(err);
         }
-        return res.render('profile/index', { field: result[0], user: user.username});
+    }
+
+    public async getUserSections(user, res) {
+        let position = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        try
+        {
+            let result = await this.db.getRow(this.tableName, position);
+            let sections = await this.db.get4RelativeTable('users', 'membersOfGroup', 'group', 'sportSection', 
+            'UserID', 'UserID', 'GroupID', 'GroupID', 'sportSection', 'SpSecID', result[0].UserID);
+            let section = [];
+            if (sections[0])
+            {
+                for (let temp in sections)
+                {
+                    section.push(sections[temp]);
+                }
+            }
+            return res.render('profile/section', {field: result[0], section, user: user.username}); 
+        }
+        catch (err) 
+        {
+            console.log(err);
+        }
     }
 
     public async checkAdminRole(user, res, next) {
@@ -258,11 +305,52 @@ export class Users extends Controller {
     }
 
     public async editUserProfile(data:IDataEditProfile, user, res) {
+        let pos = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        let result = await this.db.getRow(this.tableName, pos);
         if (this.mdwCheckData(data))
-            res.render('profile/edit', { status: 'err', mess: 'Поля не должны оставаться пустыми', user: user.username});
+            return res.render('profile/edit', { status: 'err', mess: 'Поля не должны оставаться пустыми', user: user.username,
+                field: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: result[0].Role}
+            });
         if (+(data.age) <= 0)
-            res.render('profile/edit', { status: 'err', mess: 'Возраст должен быть больше нуля', user: user.username});
+            return res.render('profile/edit', { status: 'err', mess: 'Возраст должен быть больше нуля', user: user.username,
+                field: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: result[0].Role}
+            });
         
+        let position = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        let arProps = {
+            Name: data.name,
+            Age: data.age,
+            Address: data.address,
+            Phone: data.phone
+        }
+        try 
+        {
+            await this.db.updateRow(this.tableName, position, arProps);
+            return res.render(
+                'profile/edit', 
+                { 
+                    status: 'update', 
+                    mess: 'Успешно изменен', 
+                    field: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: result[0].Role},
+                    user: user.username
+                }
+            );
+        }
+        catch(err) 
+        {
+            console.log(err);
+            if(err.errno === 1062) res.render('profile/edit', { status: 'err', mess: 'Этот телефон уже указан для другого пользователя, телефон должен быть уникальным!',
+                field: { Name: data.name, Age: data.age, Address: data.address, Phone: data.phone, Role: result[0].Role}, user: user.username
+            });
+        } 
 
     }
 

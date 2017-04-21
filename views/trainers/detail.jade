@@ -1,0 +1,24 @@
+extends ../extends/layout
+
+block aside
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
+
+block content
+    article.module.width_full
+        header
+            h3 Информация о тренере
+        .module_content
+            h4 Имя: #{trainer.trainerName}
+            h4 Телефон: #{trainer.trainerPhone}
+            h4 Опыт: #{trainer.expirience}
+    article.module.width_full
+        header
+            h3 Проводит занятия по секциям:
+        .module_content
+            ul
+                -for item in sections
+                    li 
+                        a(href='/section/#{item.SpSecID}/view') #{item.name}

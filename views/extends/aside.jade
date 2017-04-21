@@ -1,45 +1,19 @@
 aside#sidebar.column
-		form.quick_search
-			input(type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;")
-		hr
-		h3 Content
+		//- form.quick_search
+		//- 	input(type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;")
+		//- hr
+		h3 Личные данные
 		ul.toggle
-			li.icn_new_article 
-				a(href="#") New Article
+			li.icn_profile
+				a(href='/profile') Ваш профиль
 			li.icn_edit_article
-				a(href="#") Edit Articles
-			li.icn_categories
-				a(href="#") Categories
-			li.icn_tags
-				a(href="#") Tags
-		h3 Visitors
+				a(href="/profile/edit") Изменить профиль
+		h3 Пользователи
 		ul.toggle
 			li.icn_add_user
-				a(href="/admin/users/add_new/") Add New Visitor
+				a(href="/admin/users/add_new/") Добавить нового пользователя
 			li.icn_view_users
-				a(href="/admin/users/view/") View Visitors
-			li.icn_edit_article
-				a(href="#") Edit Visitor
-			li.icn_profile
-				a(href="/profile") Your Profile
-		h3 Media
-		ul.toggle
-			li.icn_folder
-				a(href="#") File Manager
-			li.icn_photo
-				a(href="#") Gallery
-			li.icn_audio
-				a(href="#") Audio
-			li.icn_video
-				a(href="#") Video
-		h3 Admin
-		ul.toggle
-			li.icn_settings
-				a(href="/auth/registration") Регистрация
-			li.icn_security
-				a(href="#") Security
-			li.icn_jump_back
-				a(href="#") Logout
+				a(href="/admin/users/view/") Список пользователей
 		footer
 			hr
 			p

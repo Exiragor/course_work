@@ -39,7 +39,7 @@
 }
 
 .icn_link{
-    width: 16px;
+    min-width: 16px;
     height: 17px;
 }
 
@@ -72,4 +72,11 @@ fieldset input[type=password] {
 
 .rollback_edit{
     margin-left: 15px;
+}
+
+.link_user_event{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #9BA0AF;
 }

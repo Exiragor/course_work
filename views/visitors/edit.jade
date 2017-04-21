@@ -1,7 +1,7 @@
 extends ../extends/layout
 
 block aside
-    include aside
+    include ../extends/aside
 
 block content
     -if (status === 'update')
@@ -27,8 +27,9 @@ block content
                     label Телефон
                     input(type="text" name="phone" value='#{fields.Phone}')
                 fieldset
-                    label Спортивная категория
+                    label Роль
                     input(type="text" name="role" value='#{fields.Role}')
                 input.alt_btn.btn(type='submit' value='Изменить')
+                a.btn.rollback_edit(href='/admin/user/#{fields.UserID}/edit') Вернуть начальные параметры
             
 

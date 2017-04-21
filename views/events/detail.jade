@@ -1,0 +1,32 @@
+extends ../extends/layout
+
+block aside
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
+
+block content
+    article.module.width_full
+        header
+            h3 Название
+        .module_content
+            h2 #{event.name}
+    article.module.width_full
+        header
+            h3 Описание
+        .module_content
+            h4 Тип мероприятия: #{event.type}
+            h4 Продолжительность: #{event.duration} минут
+            h4 Дата проведения: #{new Date(event.date).toDateString()}
+            h4 Количество оставщихся мест: #{counts}
+    article.module.width_full
+        header
+            h3 Места проведения 
+        .module_content
+            ul 
+                -for item in rooms
+                    li #{item.type}
+        
+
+        

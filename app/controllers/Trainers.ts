@@ -16,13 +16,39 @@ interface IEditTrainer {
 
 export class Trainers extends Controller {
 
-    private tableName: String = 'trainer';
+    private tableName: string = 'trainer';
 
-    public async getTrainers(res: any) {
+    public async getTrainers(user, res: any) {
+        let userPos = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
         try {
-            await this.db.getTable(this.tableName).then(result => {
-                return res.json(result);
-            });
+            let userInfo = await this.db.getRow('users', userPos); 
+            let trainers = await this.db.getTable(this.tableName);
+            return res.render('trainers/index', {field: userInfo[0], user: user.username, trainers});
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    public async getTrainersFilter(user, filter,  res: any) {
+        let userPos = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        try {
+            let userInfo = await this.db.getRow('users', userPos); 
+            let trainers = await this.db.getTable(this.tableName);
+            let result = [];
+            for (let item of trainers)
+            {
+                if(item.trainerName.indexOf(filter) != -1)
+                    result.push(item);
+            }
+            return res.render('trainers/index', {field: userInfo[0], user: user.username, trainers: result});
         }
         catch (err) {
             console.log(err);
@@ -65,6 +91,29 @@ export class Trainers extends Controller {
         catch(err) {
             console.log(err);
             res.send('ошибка');
+        }
+    }
+
+    public async getTrainer(user, id, res) 
+    {
+        let userPos = {
+            field: 'login',
+            mark: null,
+            value: user.username
+        }
+        let position = {
+            field: 'TrainerID',
+            mark: null,
+            value: id
+        }
+        try {
+            let userInfo = await this.db.getRow('users', userPos); 
+            let trainer = await this.db.getRow(this.tableName, position);
+            let sections = await this.db.getSectionsForTrainer(id); 
+            return res.render('trainers/detail', {field: userInfo[0], user: user.username, trainer: trainer[0], sections});
+        }
+        catch (err) {
+            console.log(err);
         }
     }
 

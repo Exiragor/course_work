@@ -1,13 +1,16 @@
 extends ../extends/layout
 
 block aside
-    include ../extends/aside_profile
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
 
 block content
     -if (status === 'update')
         h4.alert_success #{mess}
     -if (status === 'err')
-        h4.alert_error #{err}
+        h4.alert_error #{mess}
 
     article.module.width_full
         header

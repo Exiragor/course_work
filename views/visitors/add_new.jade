@@ -1,7 +1,7 @@
 extends ../extends/layout
 
 block aside
-    include aside
+    include ../extends/aside
 
 block content
     -if (status === 'okay')
@@ -27,7 +27,7 @@ block content
                     label Телефон
                     input(type="text" name="phone" value='#{field.phone}')
                 fieldset
-                    label Спортивная категория
+                    label Роль
                     input(type="text" name="role" value='#{field.role}')
                 input.alt_btn.btn(type='submit' value='Добавить')
             

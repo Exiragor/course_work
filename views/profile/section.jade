@@ -1,0 +1,21 @@
+extends ../extends/layout
+
+block aside
+    -if (field.Role == 'Админ')
+        include ../extends/aside
+    -else
+        include ../extends/aside_profile
+
+block content
+    article.module.width_full
+        header
+            h3 Посещаемые секции
+        .module_content
+            -if (section[0] != undefined)
+                ul
+                    -for (let item of section)                        
+                        li 
+                            a(href='/section/#{item.SpSecID}/view') #{item.name}
+            -else
+                ul
+                    li Пока что вы не посещаете секций
