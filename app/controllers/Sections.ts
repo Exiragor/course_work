@@ -2,7 +2,7 @@ import Controller from './Controller';
 
 export class Sections extends Controller {
 
-     private tableName: string = 'sportSection';
+     private tableName: string = 'sportsection';
 
      public async getSectionInfo(user, id, res) 
      {

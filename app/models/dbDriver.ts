@@ -122,8 +122,8 @@ interface Position {
     public getTrainersOfSection(sectionID: number) 
     {
         return new Promise((resolve, reject) => {
-            this.db.from('sectionCoach')
-            .innerJoin('trainer', 'sectionCoach.TrainerID', 'trainer.TrainerID')
+            this.db.from('sectioncoach')
+            .innerJoin('trainer', 'sectioncoach.TrainerID', 'trainer.TrainerID')
             .where('SpSecID', sectionID)
                 .then(result => {
                     resolve(result);
@@ -136,8 +136,8 @@ interface Position {
     public getRoomsOfSection(sectionID: number)
     {
        return new Promise((resolve, reject) => {
-            this.db.from('roomForSportSection')
-            .innerJoin('room', 'roomForSportSection.RoomID', 'room.RoomID')
+            this.db.from('roomforsportsection')
+            .innerJoin('room', 'roomforsportsection.RoomID', 'room.RoomID')
             .where('SpSecID', sectionID)
                 .then(result => {
                     resolve(result);
