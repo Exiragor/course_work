@@ -51,6 +51,9 @@ export class Routes {
         router.get('/users/view/', (req, res) => {
             controller.users.getAllVisitors(req.user, res);
         });
+        router.post('/users/view/', (req, res) => {
+            controller.users.getAllVisitorsFilter(req.user, req.body, res);
+        });
         router.get('/users/add_new/', (req, res) => {
             controller.users.formAddNew(req.user, res);
         });

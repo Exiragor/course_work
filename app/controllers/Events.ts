@@ -105,7 +105,17 @@ export class Events extends Controller {
         };
         try
         {
+            let temp = await this.db.trigger(id);
             await this.db.deleteRow('payment', position);
+            let pos = {
+                field: 'Cipher',
+                mark: null,
+                value: temp[0].Cipher
+            }
+            let props = {
+                counts: temp[0].counts + 1
+            }
+            this.db.updateRow('ticket', pos, props);
             let userInfo = await this.db.getRow('users', userPos);
             let events = await this.db.getUserEvents(userInfo[0].UserID);
 

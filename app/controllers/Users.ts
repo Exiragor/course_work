@@ -40,6 +40,40 @@ export class Users extends Controller {
         catch(err) {
             console.log(err);
         }
+    }
+    public async getAllVisitorsFilter(user, data, res: any) {
+        try {
+            let filter = [];
+            let result = await this.db.getTable(this.tableName);
+            for (let item of result)
+            {   
+                if(data.name != '')
+                {
+                    if(item.Name.indexOf(data.name) == -1)
+                        continue;
+                }
+                if(data.age_from != '')
+                {
+                    if(+(item.Age) < +(data.age_from))
+                        continue;
+                }
+                if(data.age != '')
+                {
+                    if(+(item.Age) > +(data.age))
+                        continue;
+                }
+                if(data.city != '')
+                {
+                    if(item.Address.indexOf(data.city) == -1)
+                        continue;
+                }
+                filter.push(item);
+            }
+            return res.render('visitors/index', { allVisitors: filter, user: user.username });
+        }
+        catch(err) {
+            console.log(err);
+        }
     }  
 
 

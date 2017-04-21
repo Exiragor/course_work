@@ -207,6 +207,21 @@ interface Position {
                 });
         });
     }
+    public trigger(PayID) 
+    {
+        return new Promise((resolve, reject) => {
+            this.db.from('ticket')
+            .innerJoin('paymentforticket', 'ticket.Cipher', 'paymentforticket.Cipher')
+            .innerJoin('payment', 'paymentforticket.PayID', 'payment.payID')
+            .where('payment.payID', PayID)
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
 
 }
 

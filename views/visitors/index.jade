@@ -4,6 +4,24 @@ block aside
     include ../extends/aside
 
 block content
+    article.module.width_full
+            header
+                h3 Фильтр
+            .module_content
+                form(method="post").quick_search
+                    fieldset
+                        label Фамилия, имя
+                        input(type="text" name="name")
+                    fieldset
+                        label Возраст от
+                        input(type="text" name="age_from")
+                    fieldset
+                        label Возраст до
+                        input(type="text" name="age")
+                    fieldset
+                        label Город
+                        input(type="text" name="city")
+                    input.alt_btn.btn(type='submit' value='Применить')
     .list-item.list-item--name
         .list-item__col.list-item__col--mini 
         .list-item__col.list-item__col--mini Номер  
