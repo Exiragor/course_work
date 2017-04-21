@@ -22,7 +22,7 @@ block content
             h3 Тренера
         .module_content
             ul
-                - for (let item of trainers)
+                - for item in trainers
                     li 
                         a(href='/trainer/#{item.TrainerID}/view') #{item.trainerName}
     article.module.width_full

@@ -12,7 +12,7 @@ block content
             h3 Все секции
         .module_content
             ul 
-                -for (let section of sections)
+                -for section in sections
                     li
                         a(href='/section/#{section.SpSecID}/view') #{section.name}
     article.module.width_full

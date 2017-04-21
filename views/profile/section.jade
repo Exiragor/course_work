@@ -13,7 +13,7 @@ block content
         .module_content
             -if (section[0] != undefined)
                 ul
-                    -for (let item of section)                        
+                    -for item in section                        
                         li 
                             a(href='/section/#{item.SpSecID}/view') #{item.name}
             -else
