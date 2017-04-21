@@ -292,7 +292,7 @@ export class Users extends Controller {
         try
         {
             let result = await this.db.getRow(this.tableName, position);
-            let sections = await this.db.get4RelativeTable('users', 'memberofgroup', 'group', 'sportsection', 
+            let sections = await this.db.get4RelativeTable('users', 'membersofgroup', 'group', 'sportsection', 
             'UserID', 'UserID', 'GroupID', 'GroupID', 'sportSection', 'SpSecID', result[0].UserID);
             let section = [];
             if (sections[0])
