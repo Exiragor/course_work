@@ -40,7 +40,7 @@ export class Sections extends Controller {
         try
         {
             let userInfo = await this.db.getRow('users', userPos);
-            let sections = await this.db.getTable('sportSection');
+            let sections = await this.db.getTable('sportsection');
             return res.render('sections/index', {field: userInfo[0], user: user.username, sections})
         }
         catch (err)
@@ -58,7 +58,7 @@ export class Sections extends Controller {
         try
         {
             let userInfo = await this.db.getRow('users', userPos);
-            let sections = await this.db.getTable('sportSection');
+            let sections = await this.db.getTable('sportsection');
             let result = [];
             for (let item of sections)
             {
