@@ -1,5 +1,5 @@
 const Config = {  
-    port: 4500,
+    port: 4400,
     dbConfig: {
         host: 'localhost',
         user: 'root',
