@@ -35,7 +35,7 @@ app.use('/section' ,    router.getSectionRoutes());
 app.use('/event',       router.getEventRoutes());
 app.use('/trainer',     router.getTrainersRoutes());
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.render('index', { text: 'Добро пожаловать!', user: false});
 });
 
